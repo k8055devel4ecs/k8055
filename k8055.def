@@ -1,0 +1,27 @@
+
+NAME K8055DD
+
+DEBUG WATCOM ALL
+
+OPTION CASEEXACT OPTION MAP=K8055
+
+EXPORT  K8055_Open = K8055_Open ,
+        K8055_Init = K8055_Init ,
+        K8055_Read = K8055_Read ,
+        K8055_Write = K8055_Write ,
+        K8055_Close = K8055_Close ,
+        K8055_DummyFnc = K8055_DummyFnc ,
+        K8055_DummyFnc1 = K8055_DummyFnc1 ,
+        K8055_ReadAllInputs = K8055_ReadAllInputs ,
+        K8055_DecodeDigitalInputs = K8055_DecodeDigitalInputs ,
+        K8055_CheckDigitalInput = K8055_CheckDigitalInput ,
+        K8055_SetAllOutputs = K8055_SetAllOutputs ,
+        K8055_PrepairDigitalOut = K8055_PrepairDigitalOut ,
+        K8055_PrepairDACxOut = K8055_PrepairDACxOut ,
+        K8055_CheckIxCounter = K8055_CheckIxCounter ,
+        K8055_GetInfoStr = K8055_GetInfoStr ,
+        K8055_GetInfoByte = K8055_GetInfoByte
+
+
+
+

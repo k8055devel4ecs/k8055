@@ -1,0 +1,23 @@
+OBJECTS=main.obj
+BUILDOBJ=main.obj
+
+
+all : K8055e.exe
+
+.C.OBJ : .AUTODEPEND
+	 wcc386 $[* -i=D:\WATCOM17\h;D:\WATCOM17\h\os2 -w4 -e25 -zq -hw -od -d2 -6s -bt=os2 -mf
+
+.c.obj : .AUTODEPEND
+	 wcc386 $[* -i=D:\WATCOM17\h;D:\WATCOM17\h\os2 -w4 -e25 -zq -hw -od -d2 -6s -bt=os2 -mf
+
+
+k8055e.exe : $(OBJECTS)
+	     *wlink name K8055e SYS os2v2 DEBUG WATCOM LIBPATH . LIBRARY K8055DD.lib  file $(BUILDOBJ)
+
+clean :
+	del *.obj *.exe
+
+
+
+
+

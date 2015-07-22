@@ -1,0 +1,49 @@
+
+* needed Tools for building
+ - OpenWatcom 1.6,1.7, 1.8 or 1.9 to build the lib and dll
+   download from www.openwatcom.org
+ - Python 2.6.2 for ecs from http://os2ports.smedley.info/index.php?page=python
+ - last pyrex version http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex
+ - gcc 3.3.5 form Paul's GCC build environment
+ - optional Doxygen for os2
+
+* overview
+  ..		main-dir with dll-sourcecode and makefile for openwatcom build
+   |		build dll and lib at this place
+   |
+   --example	a c-example for openwatom, see below for using the dll
+   |
+   --pyexample	an example in python for using the pyrex-modul, see below
+   |
+   --pyk8055	file to build a pyrex wrapper for the k8055DD.dll   
+
+* build dll and lib
+ - check and install all needed tools
+ - set correct include path for watcom compiler libs in Makefile.wmk 
+ - run "wmake -f Makefile.wmk all"
+
+* install the dll for using k8055
+ - copy k8055DD.dll in a LIB-Path-Directory
+
+* using the dll
+ - copy the k8055DD.lib to directory "example"
+ - change to directory "example"
+ - run "wmake -f Makefile.wmk all"
+ - run "k8055e.exe" with little blinking on k8055 ;-)
+
+* build pyrex wrapper
+ - copy the k8055DD.lib to directory "pyk8055"
+ - change to directory "pyk8055"
+ - run "python Setup.py build"
+ 
+* install the python lib
+ - change to directory "pyk8055"
+ - run "python Setup.py install"
+
+* using the python lib with the pyexample
+ - change to directory "pyexample"
+ - conncet your k8055
+ - run "python Testk8055.py"
+ - little blinking on k8055 ;-)
+
+

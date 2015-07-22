@@ -1,0 +1,1646 @@
+[BEGIN]
+
+The K8055 Project Description File (project.txt)
+================================================
+
+1.     The K8055 Project
+1.1.    Intention and aim of the K8055 Project
+1.2.    Disclaimer
+1.3.    How the Project Files Get Published
+
+
+2.     Requirements
+2.1.    Host System Requirements
+2.1.1.   Hardware Requirements
+2.1.2.   Operating System Requirements
+2.1.3.   How to Obtain K8055 Device Information
+
+2.2.    VELLEMAN K8055 USB Experimental Interface Board
+2.2.1.   General
+2.2.2.   K8055 Jumpers, Switches
+2.2.2.1.  Device Address and K8055 Product ID
+2.2.2.2.  Analog Input Test Voltage Settings
+
+
+3.      Parts of the Project
+3.1.     The Generic USB Driver 'usbecd.sys' by Wim Brul
+3.2.     The 'K8055DD' Dynamic Link Library
+3.2.1.    General
+3.2.2.    Exported Functions of 'K8055DD.dll'
+3.2.3.    List of Files Belonging to 'K8055DD.dll'
+
+3.3.     The Demo Application 'k8055e.exe'
+3.3.1.     List of Files Belonging to the Demo Application
+3.3.2.     Command Line Options
+3.3.2.1.    The Option 'Help' ( -h, -? )
+3.3.2.2.    The Option 'Device Name' ( -n <DeviceName> )
+3.3.2.3.    The Option 'Disclaimer' ( -d )
+3.3.2.4.    The Option 'Info' ( -i )
+3.3.2.5.    The Option 'Preface' ( -p )
+
+3.3.3.    'k8055e.exe' Main Menu
+3.3.3.1.    Test -Read-
+3.3.3.1.1.   How the Screen is Structured
+3.3.3.1.2.   How Digital Input Data are Decoded
+3.3.3.1.3.   How a Table Line is Put Together
+
+3.3.3.2.    Test -Write-
+3.3.3.2.1.   How the Screen is Structured
+3.3.3.2.2.   Some Facts Concerning the Output Timing
+3.3.3.2.3.   How the Digital Outputs and LEDs are Controlled
+3.3.3.2.4.   How the Analog Outputs Behave
+
+3.3.3.3.    Test -Info-
+3.3.3.3.1.   How the screen is Structured
+3.3.3.3.2.   What the -Info- Strings Tell
+
+3.3.3.4.   'Disclaimer' Via Main Menu
+3.3.3.4.1.   How the Screen is Structured
+
+3.3.3.5.   'Preface' - Hints Within Every Test
+3.3.3.5.1.   How to Use Test Prefaces
+3.3.3.5.2.   Test -Read- Preface
+3.3.3.5.3.   Test -Write- Preface
+3.3.3.5.4.   Test -Info- Preface
+
+
+4.     Installation
+4.1.    Directory Structure
+4.1.1.   Where to Put 'K8055DD.dll'
+4.1.2.   Where to Put 'K8055DD.lib'
+
+4.2.    Changing the file 'config.sys'
+
+ 
+5.     The Authors
+
+
+
+1. The K8055 Project
+--------------------
+1.1. Intention and aim of the K8055 Project
+-------------------------------------------
+The authors use the very wellknown and widespread
+ 'VELLEMAN K8055 USB Experimental Interface Board' for
+everyday tasks. Unfortunately a K8055 Device Driver could
+not be found for eComStation (OS/2).
+
+Subsequently the authors decided to come up with a solution
+of their own. So the fundamental idea was to drop the
+creation of a dedicated K8055 device driver!
+It was agreed to pick a generic driver, especially the
+one that was granted to the community by Wim Brul.
+Known as 'usbecd.sys', it is famous among many eCS users.
+
+Someone who wants to use our files, will be able to connect
+one single K8055 to a PC. That PC must have eComStation 1.0,
+1.2 or 2.0 running. Then, after compiling/building, a user
+can launch a console application 'k8055e.exe'. Because the
+source code is included, individual learning can give a
+strait lift off.
+Caution: There is no GUI application included in this
+project.
+
+
+1.2. Disclaimer
+---------------
+Hereby the authors declair themselves unable to provide
+any warranty concerning any subject covered by this project.
+
+Authors: B. Hennig and U. Hinz,  2010, 2011
+
+
+1.3. How the Project Files Get Published
+----------------------------------------
+The set of files is a snapshot of the author's learning
+curve. Sharing knowledge is the main reason, why it was
+started.
+Anyone, who wants to make use of our results, will have to
+modify the source code for individual purposes.
+
+All source code and documents will be uploades to 'hobbes'
+(http://hobbes.nmsu.edu/...).
+ 
+In contrast, binaries like
+
+  '...\K8055\K8055DD.dll' , '...\K8055\K8055DD.lib'  and
+
+  '...\K8055\EXAMPLE\k8055e.exe'
+
+will not be uploaded! Any user must compile/build the
+binaries on their own.
+Because this project will be continued, the authors may
+change their mind and upload binaries at a future date.
+By then, a GUI application may be ready for publishing too. 
+
+
+
+2. Requirements
+---------------
+2.1. Host System Requirements
+-----------------------------
+2.1.1. Hardware Requirements
+----------------------------
+The host system for this project at least requires an
+'Universal Host Controller Interface (UHCI)'.
+
+This is the list of PCs/Laptopts we used for testing:
+
+ PC with motherboard 'ASUS P2B-DS'
+ PC with motherboard 'GA-6BXD'
+ Laptop 'Thinkpad 390'
+ Laptop 'Dell Latitude C 840'
+ Laptop 'Thinkpad 570E'
+
+Computers with an 'Enhanced Host Controller Interface'
+(EHCI) were not available for our tests!
+
+
+2.1.2. Operating System Requirements
+------------------------------------
+All development work was performed on an 'eComStation 1.2'
+system, but all binaries were tested with three
+eCS-Versions:
+
+ 'eComStation 1.1',
+ 'eComStation 1.2' and
+ 'eComStation 2.0'.
+
+All other systems belonging to the OS/2 line were not
+checked so far.
+
+Disk space:
+No more than 200 KBytes of disk space are required for
+all files and extras of the K8055-Project.
+
+Device Specific Dynamic Link Library:
+
+ 'K8055DD.dll', Ver.: 1.0.16, 2011-07-15,   45355 Bytes
+
+Source code files, binaries, command scripts and documents
+belonging to the project:
+
+ 'main.c'       appr. 25    KBytes    source file
+
+ 'k8055lib.h'   appr. 39    KBytes    source file
+
+ 'K8055DD.lib'  appr. 11    KBytes    binary file  I
+
+ 'Makefile.wmk' appr.  0.5  KBytes    command script
+                      ------------
+                appr. 76    KBytes
+                      ============
+
+
+2.1.3. How to Obtain K8055 Device Information
+---------------------------------------------
+If a user is connecting a
+    'VELLEMAN K8055 USB Experimental Interface Board'
+for the first time, the operating system eComStation will not
+respond!
+A USB-Memory-Stick would be invited as an additional drive,
+for example, a K8055 will be ignored.
+This situation seems to be a dead-end road, because information
+is needed for the Wim Brul Driver 'usbecd.sys'!
+(See: 4.1. Changing the file 'config.sys')
+
+Via 'Desktop'|'Programs' please go to 'Utilities' and start
+'USB Resource Manager'.
+(<Sysdrive>:\ecs\bin\usbres.exe). After a time of up to half
+a minute, the 'USB Resource Manager' window will appear with a
+list of devices. At least one line must be on this list and it
+should look in a way like this:
+
+' #  |  Vendor    |  Product  |  Rev.  |  # Lang  |  LangID  '
+'----+------------+-----------+--------+----------+----------'
+' n  |Velleman Com|8055 Experi| 00.00  |  1       |  1033    '
+'----+------------+-----------+--------+----------+----------'
+' n+1| ...        | ...       | ...    | ...      |  ...     '
+'----+------------+-----------+--------+----------+----------'
+
+Then rightclick the line with 'Velleman Com.. 8055..' and wait
+for the pop up menu 'View device report'. Leftclick this menu
+and wait for a new window named 'Device Report View'.
+All information that can be obtained from a K8055 is shown
+in the following 53 lines.
+
+-------- Exported Content of 'Device Report View' --- BEGIN --
+
+Line#--1:  <<< Device Description >>>
+Line#--2:  Type            : 01
+Line#--3:  USB Rev         : 110
+Line#--4:  Class           : Reserved (0)
+Line#--5:  Subclass        : Reserved (0)
+Line#--6:  Protocol        : Reserved (0)
+Line#--7:   Device Information is defined at interface Level
+Line#--8:  Max. packetsize : 08
+Line#--9:  Vendor  ID      : 10CF
+Line#-10:  Product ID      : 5500
+Line#-11:  Device Release# : 0000
+Line#-12:  Strings:
+Line#-13:   Manufacturer Name : Velleman
+Line#-14:   Product Name      : USB K8055
+Line#-15:   Serial number     : Not implemented
+Line#-16:  Number of Configurations : 1
+Line#-17:
+Line#-18:  Configuration 0 :
+Line#-19:   Lenght     : 41
+Line#-20:   Name       :
+Line#-21:   Value      : 1
+Line#-22:   Attributes : 0x80
+Line#-23:   Power      : 100 mA
+Line#-24:   Interfaces : 1
+Line#-25:
+Line#-26:   Interface 0
+Line#-27:    Alt Setting : 0
+Line#-28:    Name        : <NONE>
+Line#-29:    Class       : Human Interface Device (HID)
+Line#-30:    SubClass    : No Subclass
+Line#-31:    Protocol    : None
+Line#-32:    Endpoints   : 2
+Line#-33:    HID Description:
+Line#-34:     Length          : 09
+Line#-35:     HID Rel. Number : 100
+Line#-36:     Country Code    : 0000
+Line#-37:     Descriptors     : 1
+Line#-38:      Type          : 22
+Line#-39:      Length        : 0
+Line#-40:      Type          : 07
+Line#-41:      Length        : 0
+Line#-42:
+Line#-43:    Endpoint 0:
+Line#-44:     Address     : 81
+Line#-45:     Attributes  : 03
+Line#-46:     Packetsize  : 0008
+Line#-47:     Interval    : 10
+Line#-48:
+Line#-49:    Endpoint 1:
+Line#-50:     Address     : 01
+Line#-51:     Attributes  : 03
+Line#-52:     Packetsize  : 0008
+Line#-53:     Interval    : 10
+
+-------- Exported Content of 'Device Report View' ----- END --
+
+Beginning in Line#--9, three (3) items have to be looked at:
+
+ - 'Vendor ID'         value: 10CF
+ - 'Product ID'        value: 5500
+ - 'Device Release#'   value: 0000
+
+Put toghether as '10CF:5500:0000' it will act as the
+D-Parameter value later on
+(See: 'usbecd.txt' in Wim Brul's archive 'usbecd10.zip').
+
+
+2.2. VELLEMAN K8055 USB Experimental Interface Board
+----------------------------------------------------
+2.2.1. General
+--------------
+The 'VELLEMAN K8055 USB Experimental Interface Board' must
+meet a number of conditions to work reliably with the
+software components of this project.
+
+
+ 1. This text assumes a fully equipped K8055, working
+ error-free!
+ Individual changes are normal anyway, but the authors
+ cannot take them in account for whatever reason.
+
+ 2. External circuitry and additional components are
+ completely out of the scope of this project.
+ Two resistors R8 and R9 are regarded as additional. They
+ are needed if analog input voltages at A1 and/or A2
+ must be amplified.
+ In other words, a fully equipped K8055 does not have
+ R8 (GAIN1) and/or R9 (GAIN2) mounted.
+
+ 3. It is strongly recommended not to get a K8055-Kit.
+ This is for do-it-yourself-soldering and may cause
+ extra uncertainties.
+ If possible,  get a completed K8055 from a shop. A user
+ may be sure it was checked for errors before it left
+ the factory.
+
+ 4. The authors got five K8055 in total and can only
+ talk about K8055 manufactured between 2008 and 2010.
+ Because VELLEMAN did not provide K8055 Serial Numbers,
+ nobody can say anything about changes that were made
+ over time from 2003 on, when production started.
+
+
+2.2.2. K8055 Jumpers, Switches
+------------------------------
+2.2.2.1. Device Address and K8055 Product ID
+--------------------------------------------
+The design of the K8055 allows connecting more than
+one device to a host computer. Both jumpers SK5 and SK6
+form an address selection field with four (4) possible
+settings. Located in the middle of the PCB it is labeled
+as 'Card Address' with a little table nearby.
+
+  Addr SK5  SK6
+  --------------
+   0    on   on
+   1    off  on
+   2    on   off
+   3    off  off
+
+According to the setting of the 'Card Address' a K8055
+USB Device ProductID will also change.
+
+  Addr  ProductID
+  --------------
+   0     5500
+   1     5501
+   2     5502
+   3     5503
+
+ (See: 2.1.3. How to Obtain K8055 Device Information)
+
+!!! Caution:  This project has got a basic restriction.
+Its software component 'K8055DD.dll' can only deal with
+one (1) K8055.
+
+2.2.2.2. Analog Input Test Voltage Settings
+-------------------------------------------
+If bought from a shop, any K8055 has got the jumpers SK1
+and SK2 installed. Their purpose is to provide an internal
+test voltage for the K8055 Analog Inputs (A1, A2).
+(See: page 18 of 'Manual_K8055_UK.pdf' coming with the
+ K8055 CD)
+Both jumpers lead 5 volts from the USB  power lines to the
+attenuators (potentiometers) ATT1 and ATT2. If their
+sliding contact is turned to its leftmost position (ccw),
+the test voltage is tuned to 0 volts. Accordingly in the
+rightmost position (cw) the test voltage is equal to the
+USB power voltage.
+Testing the K8055 analog input function will make it
+mandatory to move the sliding contacts of ATT1 and/or ATT2
+with a small screwdriver over the full range.
+
+Without R8 and/or R9 installed the test voltage remains
+internally unaltered untill it reaches the K8055 CPU
+(IC3, PIC16C745) pins.
+In this general case 0 volts are represented as the
+digital value 0x00. On the other hand 5 volts will show
+up as 0xff (255).
+Please do not take the expression '5 volts' too seriously.
+This voltage is not accurate. It differs from PC to PC.
+How many and what kind of USB devices are connected
+influences the accuracy too.
+
+
+
+3. Parts of the Project
+-----------------------
+3.1. The Generic USB Driver 'usbecd.sys' by Wim Brul
+----------------------------------------------------
+The most important piece of software is the generic
+USB Driver created by Wim Brul. We the authors found
+this generic driver useful.
+It is a good idea to get it from Wim's homepage.
+
+ 'http://home.hccnet.nl/w.m.brul/usbprobe/usbecd10.zip'
+ ( 2010-12-xx )
+
+A second useful URL is the 'hobbes' server that is
+maintained by the 'New Mexico State University'.
+
+ 'http://hobbes.nmsu.edu/'
+
+Follow the Link 'Browse the Archive' and type the search
+string 'USBECD' into the 'Quick search' entry field.
+Then click the 'Search'-Button.
+
+A table with three items will appear as such. Spot the
+2nd line as quoted here.
+
+ Name           Description                      Date
+    ...           ...                            ...
+'usbecd10.zip''USB1.1 Expanded Control Driver''2005/12/12'
+    ...           ...                            ...
+
+After the download is done, check the content of the
+ZIP archive.
+
+Here is the list of files shown by the eCS 'Archive Viewer'
+'ARCVIEW.EXE'
+
+Archive:  <Drive>:/USBECD10/USBECD10.ZIP
+  Length     EAs   ACLs    Date   Time    Name
+ --------    ---   ----    ----   ----    ----
+     1875      0      0  11-04-05 10:31   usbecd.sys
+    18668      0      0  06-12-05 14:25   usbecd.txt
+     2062      0      0  06-12-05 19:14   usbread.cmd
+     9635      0      0  06-12-05 19:13   usbwrite.cmd
+ --------  -----  -----                   -------
+    32240      0      0                   4 files
+
+Create a new directory on the boot drive, i.e. 'c:\usbecd',
+and put all four files there. Later this location will be
+of importance, if the 'config.sys' has to be altered.
+(See: 4.1. Changing the file 'config.sys')
+
+
+3.2. The 'K8055DD' Dynamic Link Library
+---------------------------------------
+3.2.1. General
+--------------
+All K8055 specific functionality is concentrated in the
+Dynamic Link Library 'K8055DD.dll'. This library provides
+exported functions in such a way, that an application can
+do hardware oriented calls in a very simple fashion. It
+overcomes the difficulties to write a device driver for
+K8055. A DLL is much easier to program and to debug than
+doing the same for a device driver.
+
+Being exclusively concentated on 
+
+ 'VELLEMAN K8055 USB Experimental Interface Board' ,  
+
+we the authors, decided to call it a
+
+ 'Device Specific Library'.
+
+'Open Watcom C/C++ Compiler 1.7', freely available for
+download from the internet, was the authors choice to
+build 'K8055DD.dll' with. Anyone who wants to take
+ideas from our Device Specific DLL may then alter it
+for individual reasons.
+
+
+3.2.2. Exported Functions of 'K8055DD.dll'
+-----------------------------------------
+All exported function can be sorted by category.
+Only five of them interact with Wim Brul's device driver.
+
+ -'K8055_Open()'           Export Index 1 
+ -'K8055_Init()'           Export Index 2
+
+ -'K8055_Close()'          Export Index 5
+
+ -'K8055_ReadAllInputs()'  Export Index 8
+
+ -'K8055_SetAllOutputs()'  Export Index 11.
+
+Some other ones exist just for supportive reasons as:
+
+ -'K8055_DecodeDigitalInputs()'  Export Index 9
+ -'K8055_CheckDigitalInput()'    Export Index 10
+
+ -'K8055_PrepairDigitalOut()'    Export Index 12
+ -'K8055_PrepairDACxOut()'       Export Index 13
+ -'K8055_CheckIxCounter()'       Export Index 14
+ -'K8055_GetInfoStr()'           Export Index 15
+ -'K8055_GetInfoByte()'          Export Index 16 .
+
+Only two functions work as bare templates like:
+
+ -'K8055_DummyFnc()'             Export Index 6
+ -'K8055_DummyFnc1()'            Export Index 7
+
+and two that are very risky, because they allow access to a
+lot of error-prone variables. 
+
+  - 'K8055_Read()'               Export Index 3
+  - 'K8055_Write()'              Export Index 4 .
+
+If a programming language can deal with C style DLLs,
+it can be used to access a K8055 in a comfortable way
+as wanted.
+
+
+3.2.3. List of Files Belonging to 'K8055DD.dll'
+-----------------------------------------------
+Files that are needed by the compiler to build K8055DD.dll:
+
+  'func.c'       Source code of the Device Specific Library
+                 containing all exported functions including
+                 data buffers and string constants.
+ 
+  'func.h'       Definitions as error codes and various
+                 constants.
+  
+  'k8055.def'    This file helps the Watcom Linker
+ 
+  'Makefile.wmk' The 'Command Center'
+                 for compiling, linking, and copying.
+
+Resulting file(s) created by the compiler:
+
+  'func.obj'    
+
+Resulting files created by the Watcom Linker:  
+                       
+
+  'K8055DD.dll' The most important result.
+
+  'K8055DD.lib' Import Library.
+                With this file an application can use the                    
+                function previously exported by 'k8055DD.dll'
+                In this project it is needed for the
+                - C language demo application 'K8055DD.dll' and
+                - for the Python script language example
+                   ( Not discussed in this text 'project.txt'.)
+                - Pascal programs do not need this file
+                  in order to import 'K8055DD.dll' functions.
+
+  'K8055DD.bak' Backup file of 'K8055DD.lib', one version behind.
+
+  'K8055.map'   Created by the Watcom Linker, containig names
+                and references.
+
+
+3.3. The Demo Application 'k8055e.exe'
+--------------------------------------
+'k8055e.exe' is a small console application. It was created
+to provide a strait idea what is possible.
+
+
+3.3.1. List of Files Belonging to the Demo Application
+------------------------------------------------------
+Files needed to compile (make} the demo application
+'k8055e.exe':
+
+  'main.c'        This is the demo application
+                  source code.
+
+  'k8055lib.h'    Definitions directly related to K8055
+                  are put here as
+                  error codes, constants and function
+                  prototypes.
+
+  'K8055DD.lib'   Import library, containing references
+                  exactly to those functions, that are
+                  exported by 'K8055DD.dll'.
+                  During compilation this library is
+                  needed to build the file 'k8055e.exe'.
+
+  'Makefile.wmk'  All steps to build the demo application
+                  binary 'k8055e.exe' are listed here.
+                  Caution: Beginners on the programming
+                  field often dislike makefiles.
+                  Their notation is not as simple or
+                  self-explanatory as usual code.
+                  Makefiles were invented to avoid
+                  compilation errors, to circumvent
+                  unwanted repetition and to increase
+                  productivty.
+                  Dear beginner - stay in close touch
+                  with these terrible makefiles!
+                  The file extension 'wmk' indicates that
+                  this makefile in particular derived from
+                  a Watcom C Compiler, since this
+                  K8055 project was written with
+                  'Open Watcom C/C++ 1.7'. If different
+                  compilers have to be used, this makefile
+                  may not be appropriate and will require
+                  changes.
+
+  'wtm.cmd'       A little REXX script able to invoke the
+                  command line
+                  ' wmake "-f Makefile.wmk" '.
+                  It starts the compilation and will
+                  finally result in the application binary
+                  'k8055e.exe'.
+
+
+
+3.3.2. Command Line Options
+---------------------------
+3.3.2.1. The Option 'Help' ( -h, -? )
+-------------------------------------
+
+Just typing at the command prompt as
+
+ [...\K8055\EXAMPLE]k8055e.exe      or
+ [...\K8055\EXAMPLE]k8055e.exe -h   or
+ [...\K8055\EXAMPLE]k8055e.exe -?
+
+will produce the help screen. No connection with the K8055 will
+be estabished at this point.
+
+
+----- Screenshot -- Option -h, BEGIN ---------------------------
+|                                                              |
+|                                                              |
+|k8055e.exe [option] [-n <DeviceName>] [option]                |
+|    List of options:                                          |
+|-d  Disclaimer switched off.                                  |
+|-h  This screen, options and parameters listed.               |
+|-?  The same option as -h.                                    |
+|-n  Meaning that the following parameter is the Device Name.  |
+|    Device Name is the same as in the config.sys statement,   |
+|    needed by the Wim Brul driver instance                    |
+|    'device = C:<path>usbecd.sys /D:10CF:5500:0000 /N:K8055_$'|
+|    Following '/N:', this string is the Device Name.          |
+|    Command Line Example: '[c:\]k8055e.exe -n K8055_$'.       |
+|    If -n is omitted, the application will use '$' as         |
+|    a Dummy Device Name instead.                              |
+|-p  Preface to every single test. It shows a little           |
+|    list with DLL functions that are called.                  |
+|-i  Basic information concerning the device                   |
+|    specific library K8055DD.dll.                             |
+|                                                              |
+| End of k8055e.exe                                            |
+|                                                              |
+----- Screenshot -- Option -h, END -----------------------------
+
+
+3.3.2.2. The Option 'Device Name' ( -n <DeviceName> )
+-----------------------------------------------------
+Any interaction with a K8055 involves the  -n parameter and
+a device name. This project uses 'K8055_$' as such.
+A fully qualified command line will appear as
+
+ [...\K8055\EXAMPLE]k8055e.exe -n K8055_$ -d
+
+to get to the Demo Application Main Menu
+
+
+---- Screenshot -- Option -n, BEGIN ----------------------------
+|                                                              |
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³        USB-Interface Board VELLEMAN K8055               ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+|  Main menu                                                   |
+|                                                              |
+|                                                              |
+|    Reading from K8055.................................. r    |
+|    Writing to K8055.................................... w    |
+|    Info on the Device Specific Library K8055DD.dll .... i    |
+|                                                              |
+|    Disclaimer.......................................... d    |
+|    Quit................................................ q    |
+|                                                              |
+|                                                              |
+|     Press one of the listed keys !                           |
+|                                                              |
+|                                                              |
+----- Screenshot -- Option -n, END -----------------------------
+
+
+3.3.2.3. The Option 'Disclaimer' ( -d )
+---------------------------------------
+The -d parameter must always be used together with the option
+'Device Name' (see above 3.4.1.2). If -d is omitted,
+the demo application will be halted. Before the disclaimer can
+be shown.
+
+ [...\K8055\EXAMPLE]k8055e.exe -n K8055_$
+
+as a command line provokes the unavoidable screen, the
+disclaimer text.
+
+---- Screenshot -- Option -d, BEGIN ----------------------------
+|                                                              |
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+|                                                              |
+|  Disclaimer                                                  |
+|                                                              |
+|   This program is a snapshot of the author's                 |
+|   learning curve. Sharing knowledge is the only              |
+|   reason, why it was published.                              |
+|   Anyone, who wants to make use of it, will have             |
+|   to modify it for individual purposes.                      |
+|                                                              |
+|   Hereby the authors declare themselves unable to            |
+|   provide any warranty concerning any subject                |
+|   covered by this program.                                   |
+|                                                              |
+|                    Authors: B. Hennig and U. Hinz, 2010      |
+|                                                              |
+|   Please use command line option -d to switch off            |
+|   the disclaimer.                                            |
+|   Command Line Example: '[c:\]k8055e.exe -n <devname> -d'.   |
+|End of k8055e.exe                                             |
+|                                                              |
+----- Screenshot -- Option -d, END -----------------------------
+
+As users will never read the disclaimer deliberately, we the
+authors, are as nasty to bring it to the front in the first
+place...
+
+
+3.3.2.4. The Option 'Info' ( -i )
+---------------------------------
+Detailed information concerning the Device Specific Library
+'K8055DD.dll' can be viewed with the  -i parameter.
+
+ [...\K8055\EXAMPLE]k8055e.exe -i
+
+will print just a few lines as
+
+
+---- Screenshot -- Option -i, BEGIN ----------------------------
+|                                                              |
+|                                                              |
+|   Info on the Device Specific Library 'K8055DD.dll'          |
+|                                                              |
+|                                                              |
+|       DLL-Name: K8055DD                                      |
+|       DLL-Version: 1.0.16                                    |
+|       Date: 2011-07-12                                       |
+|       Licence: BSD                                           |
+|       Authors: B. Hennig , U. Hinz                           |
+|                                                              |
+|End of k8055e.exe                                             |
+|                                                              |
+----- Screenshot -- Option -i, END -----------------------------
+
+
+3.3.2.5. The Option 'Preface' ( -p )
+------------------------------------
+'Preface' is a special option and will switch on an explanation
+text. Before the main menue fuctions can be carried out, the
+user can see a little list with the functions that are applied
+within a certain test.
+
+In example       - 'K8055_Open()'
+                 - 'K8055_Init()'
+                 - 'K8055_ReadAllInputs()'
+                 - 'K8055_DecodeDigitalInputs()'
+                 - 'K8055_CheckIxCounter()'
+                 - 'K8055_Close()'
+
+for the test -Read- or
+
+                 - 'K8055_GetInfoStr()'
+
+for the -Info- test.
+
+After 'k8055e.exe' is started or restarted all prefaces are
+OFF by default.
+
+
+
+3.3.3. 'k8055e.exe' Main Menu
+-----------------------------
+The demo application 'k8055e.exe' provides functions that fall
+into two categories. Some of them can be called via command line
+option (see section 3.4.1.) or some others, the tests themselves,
+must be selected from the Main Menu. This section is focussed on
+the Main Menu only.
+
+Typing
+
+  [...\K8055\EXAMPLE]k8055e.exe -n K8055_$ -d
+
+leads to the Main Menue.
+
+
+---- Screenshot -- Main Menu, BEGIN ----------------------------
+|                                                              |
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³        USB-Interface Board VELLEMAN K8055               ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+|  Main menu                                                   |
+|                                                              |
+|                                                              |
+|    Reading from K8055.................................. r    |
+|    Writing to K8055.................................... w    |
+|    Info on the Device Specific Library K8055DD.dll .... i    |
+|                                                              |
+|    Disclaimer.......................................... d    |
+|    Quit................................................ q    |
+|                                                              |
+|                                                              |
+|     Press one of the listed keys !                           |
+|                                                              |
+|                                                              |
+----- Screenshot -- Main Menu, END -----------------------------
+
+From here one of the tests can be carred out with
+
+   r or R  for reading from K8055
+   w or W  for Writing to K8055
+
+   i or I  for testing some data concerning the
+           Device Specific Library 'K8055DD.dll'
+
+
+With  q or Q  the whole demo application can be finished
+completely.
+
+---- Partial screenshot -- Main Menu Quit, BEGIN ---------------
+|                                                              |
+.                                                              .
+.                                                              .
+.                                                              .
+|     Quit................................................ q   |
+|                                                              |
+|                                                              |
+|      Press one of the listed keys !                          |
+|                                                              |
+| -Quit- selected !                                            |
+| End of k8055e.exe                                            |
+|                                                              |
+----- Partial screenshot -- Main Menu Quit, END ----------------
+
+As a reaction upon  q or Q  '-Quit- selected !' is echoed and
+finally the farewell phrase
+
+  'End of k8055e.exe'
+
+is put on the screen.
+
+
+3.3.3.1. Test -Read-
+--------------------
+3.3.3.1.1. How the Screen is Structured
+---------------------------------------
+If  r or R  was selected, a time of about 2 seconds must be
+over before a new screen is displayed.
+'Test -Read- selected' confirms the choice and at the end of
+the same line the USB Device Name is shown.
+'K8055_$' is exactly that name, used in the config.sys file
+statement
+
+  'device = ...\usbecd.sys /D:10CF:5500:0000 /N:K8055_$' .
+
+When the two seconds are over the actual reading takes place.
+30 reading actions follow. They are shown by 5 tables of 6
+lines each.
+
+  'Showing table 1 / 5' ... 'Showing table 5 / 5'
+
+indicates which of the five tables is currently visible.
+No table from the past can be recalled to the screen! Data
+file recording is not implemented in this demo application.
+It's just a task for future users...
+
+---- Screenshot, -- Test -Read-, BEGIN -------------------------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+| Test -Read- selected,            USB Device Name: 'K8055_$'  |
+|  Showing table 5 / 5         Speed: app. 1 line per second   |
+|                                                              |
+|  Digital Inputs                ³  Analog Inputs              |
+|                                ³                             |
+|   Ix: raw,  decoded ( binary ) ³   A1:    A2:                |
+| ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ             |
+|     0x80,   0x10    ( 010000 ) ³     211    028              |
+|     0x40,   0x08    ( 001000 ) ³     210    027              |
+|     0x01,   0x04    ( 000100 ) ³     210    028              |
+|     0x20,   0x02    ( 000010 ) ³     210    027              |
+|     0x10,   0x01    ( 000001 ) ³     210    027              |
+|     0000,   0000    ( 000000 ) ³     210    027              |
+| Impulses counted on I1 =  000017                             |
+| Impulses counted on I2 =  000016                             |
+|Device 'K8055_$' closed.                                      |
+|Test -Read- completed !                                       |
+|                                                              |
+| Press  m  to return to the Main Menu                         |
+|                                                              |
+----- Screenshot, -- Test -Read-, END --------------------------
+
+After every line, in other words between two reading actions,
+a delay time of 1 second is inserted intentionally. It gives the
+user the opportunity to debug or observe the demo application in
+a kind of slow motion stile.
+If all 30 reading actions are done, two extra readings follow
+at the button of table 5. Each of them presents the impulse
+counter values as tey were captured on digital input I1 and I2.
+
+ Impulses counted on I1 =  000017
+ Impulses counted on I2 =  000016
+
+Immediately after the two counters are read, the test is
+practically finished. Only the closing of 'K8055_$' is printed.
+
+ Test -Read- completed !
+
+indicates the end of the test.
+
+
+3.3.3.1.2. How Digital Input Data are Decoded
+---------------------------------------------
+Low voltage applied to a digital input causes a digital value 1
+to occur.
+Pressing the push button 'Inp1' will just have the same effect
+as applying 0 volts to I1.
+In the opposit case, setting I1 to 5 volts, or leaving the push
+button unpressed, a digital value of 0 will be produced.
+In plain words, all the digital inputs get logically inverted
+by the K8055 firmware!
+
+                 Digital Inputs                 | Data read
+                                                | from K8055
+  Applied voltage,  Wiring,   Push button state | 
+                                                | 
+ ------------------------------------------------------------
+  I5 = 0 volts  or grounded or Inp5 = pressed   |   0x80
+  I4 = 0 volts  or grounded or Inp4 = pressed   |   0x40
+  I3 = 0 volts  or grounded or Inp3 = pressed   |   0x01
+  I2 = 0 volts  or grounded or Inp2 = pressed   |   0x20
+  I1 = 0 volts  or grounded or Inp1 = pressed   |   0x10
+                                                |
+  Ix = 5 volts, or open  or InpX = not pressed  |   0x00
+
+Although five bits would just cover the 32 continous numbers
+0...31, a K8055 does not work this way. The range of numbers
+has got shifts or gaps.
+The DLL function 'K8055_DecodeDigitalInputs()' overcomes this
+inconvenient oddity.
+
+  Data read         |  Data decoded by
+  from K8055        |  'K8055_DecodeDigitalInputs()'
+                    |
+                    |       
+-----------------------------------------------------
+   0x80             |   0x10
+   0x40             |   0x08
+   0x01             |   0x04
+   0x20             |   0x02
+   0x10             |   0x01
+                    |
+   0x00             |   0x00
+
+
+3.3.3.1.3. How a Table Line is Put Together
+-------------------------------------------
+A special explanation how the lines of the five tables are
+structured is added here:
+Leftmost the digital input values are located. In C-style
+hexadecimal notation this data shows the exact situation on all
+five digital ports I5, I4, I3, I2 and I1 ( Ix ).
+The name of the leftmost column is
+
+   Ix: raw,                     ³
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+     0x80,                      ³                 .
+
+It is then just a simple conclusion to mark
+the second position as
+
+   Ix: raw,  decoded            ³
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+     0x80,   0x10               ³                 .
+
+Just to make the test a little bit easier for debugging and
+playing with the K8055 On-Board pushbuttons, a third position
+reveals the decoded hex value as a binary equivalent.
+
+   Ix: raw,  decoded ( binary ) ³
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+     0x80,   0x10    ( 010000 ) ³                 .
+
+Looking beyond the vertical separator the two next columns are
+marked as A1 (Analog Input 1) and A2 (Analog Input 1). Both
+of them present the values of the internal ADCs resting inside
+of the K8055 CPU. Their range covers 0 through 255, which is
+just the same as an 8 bits resolution.
+For the lowest input voltage app. 0 volts it would display 000
+and for the highest 255.
+Caution! This project assumes an unaltered K8055. It cannot
+cover the variety caused by amplified analog input voltages
+as mentioned above
+(see 2.2.2.2. Analog Input Test Voltage Settings ).
+
+
+   Ix: raw,  decoded ( binary ) ³   A1:    A2:
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+     0x80,   0x10    ( 010000 ) ³     211    028
+
+
+3.3.3.2. Test -Write-
+---------------------
+3.3.3.2.1. How the Screen is Structured
+---------------------------------------
+Immediately after  w or W  was pressed, the write test screen
+will appear. Its first element is the demo application headline
+and below that the confirmation phrase 'Test -Write- selected'
+is printed. At the end of this line the USB Device Name is just
+added.
+
+'K8055_$' is exactly the same name as used in the config.sys
+file statement.
+
+  'device = ...\usbecd.sys /D:10CF:5500:0000 /N:K8055_$' .
+
+In the second line
+
+  'Time between two I/O...'
+
+a simple statement is given. It just informs the user about the
+minimum time span of app. 10 milliseconds between two K8055
+output actions.
+
+As a kind of trailer the two final lines
+
+  'Device 'K8055_$' closed. '  and
+  'Test -Write- completed ! '
+
+follow at the end of the write test.
+
+
+3.3.3.2.2. Some Facts Concerning the Output Timing
+--------------------------------------------------
+The minimum time between two output events (10ms) is valid
+throughout this test. Some additional time, depending on the
+system speed or CPU load, will extend this duration to a more
+saver value anyway.
+Caution: Wim Brul's generic device driver 'usbecd.sys' does not
+care about such a minimum duration at all. How long to pause
+must be managed on application level instead!
+Programmers will have to respect this time value. It is an
+important device property and can be found under the name
+'Interval' In the K8055 Endpoint Descriptors.
+
+ (see 2.1.3. How to Obtain K8055 Device Information ,
+  - Exported Content of 'Device Report View' -,
+  Line-# 47 and Line-# 53).
+
+Attempts to shorten this interval in a future application will
+definitely lead to the Field of The Unknown. Data loss or
+unwanted situations must be concidered!
+
+
+3.3.3.2.3. How the Digital Outputs and LEDs are Controlled
+----------------------------------------------------------
+Data output starts after the table headline is printed. All
+digital ports drive eight built-in LEDs (LD1..LD8). A digital
+value of 0000 0000 will close all OC output channels and switch
+OFF the LEDs. As the table on the console screen starts with 00,
+it must end with 255 (0xFF) and the whole set  of LEDs (LD1..LD8)
+will be ON.
+Approximately twenty (20) seconds are needed for rushing through
+all 256 output states.
+
+
+3.3.3.2.4. How the Analog Outputs Behave
+----------------------------------------
+At the same moment when a digital output Ox is changing, DAC1
+and DAC2 will change too. At DAC1 the output voltage will
+increase from 0 volts up to 5 volts like a step function.
+If the DAC1 voltage is going upwards, DAC2 does the opposite.
+Here the step function covers voltages from 5 volts downwards
+to 0 volts.
+Caution: The terms 0 volts and 5 volts cannot be regarded as
+accurate expressions. In fact they derive from the USB Supply
+Voltage of an individual PC and vary unpredictably. Everyday
+reality tells us this voltage is rarely higher than app. 4.75
+volts.
+Hint: Without any voltmeter the analog output voltages can be
+observed indirectly with the onboard LEDs LD9 and LD10.
+LD9, related to DAC1, will increase in brightness while the
+test is running. Correspondingly LD10 performs the opposite way.
+The table below lists some important characteristics of the
+K8055 analog outputs.
+
+          Situation               |       Brightness
+                                  |
+                                  |    LD9          LD10
+ -----------------------------------------------------------
+  Test -Write- just started       |  dark       max. bright
+                                  |
+  Test -Write- halfway through    |     equally bright
+                                  |
+  Test -Write- over               |  max. bright   dark
+  After K8055 was connected to    |
+  a running eCS-PC                |  dark          dark
+                                  |
+  eCS-PC and USB were powered     |
+  off, switched on and booted     |  dark          dark
+  again                           |
+                                  |
+  Some K8055 software used,       |
+  eCS-PC powered off, booted      |
+  again, but USB externally       |
+  powered and not switched off    |     both unchanged
+                                  |
+  Using some other software       |
+  before running 'k8055e.exe'     |   both unpredictable
+                                  |
+
+Some remarks concerning the outputs PWM1 and PWM: Both PWM
+signals control LD9 or LD10. Questions that go beyond the
+the two analog LED indicators, as better accuracy or added
+circuitry are not covered in this project description.
+
+
+
+---- Screenshot, -- Test -Write-, BEGIN ---------------------...
+|
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+| ³           This is a Demo Application for the            ³
+| ³           USB-Interface Board VELLEMAN K8055            ³
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+| Test -Write- selected,           USB Device Name: 'K8055_$'
+| Time between two I/O actions: app. 10 milliseconds
+|
+|Analog Outputs DAC1, DAC2=255-DAC1 and Digital Outputs Ox, a...
+|ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ...
+|00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 ...
+|18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B ...
+|30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 ...
+|48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B ...
+|60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70 71 72 73 ...
+|78 79 7A 7B 7C 7D 7E 7F 80 81 82 83 84 85 86 87 88 89 8A 8B ...
+|90 91 92 93 94 95 96 97 98 99 9A 9B 9C 9D 9E 9F A0 A1 A2 A3 ...
+|A8 A9 AA AB AC AD AE AF B0 B1 B2 B3 B4 B5 B6 B7 B8 B9 BA BB ...
+|C0 C1 C2 C3 C4 C5 C6 C7 C8 C9 CA CB CC CD CE CF D0 D1 D2 D3 ...
+|D8 D9 DA DB DC DD DE DF E0 E1 E2 E3 E4 E5 E6 E7 E8 E9 EA EB ...
+|F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 FA FB FC FD FE FF
+|Device 'K8055_$' closed.
+|Test -Write- completed !
+|
+| Press  m  to return to the Main Menu
+|
+----- Screenshot, -- Test -Write-, END ----------------------...
+
+
+3.3.3.3. Test -Info-
+--------------------
+3.3.3.3.1. How the Screen is Structured
+---------------------------------------
+Typing  i or I  will reveal basic information concerning the
+Device Specific Library 'K8055DD.dll'.
+As in all tests the demo application headline comes first.
+Immediately after, a confirmation phrase
+
+  '-Info- selected'
+
+follows in the next line and
+
+  "USB Device Name: 'K8055_$' " 
+
+resides in the end of it. Then a subtitle introduces leads to 
+the next thing to look at - five lines tell all about the
+DLL itself.    
+
+
+---- Screenshot, -- Test -Info-, BEGIN -------------------------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+| -Info- selected,                 USB Device Name: 'K8055_$'  |
+|                                                              |
+|  Info on the Device Specific Library 'K8055DD.dll'           |
+|                                                              |
+|                                                              |
+|       DLL-Name: K8055DD                                      |
+|       DLL-Version: 1.0.16                                    |
+|       Date: 2011-07-12                                       |
+|       Licence: BSD                                           |
+|       Authors: B. Hennig , U. Hinz                           |
+|                                                              |
+| Press  m  to return to the Main Menu                         |
+|                                                              |
+----- Screenshot, -- Test -Info-, END --------------------------
+
+
+3.3.3.3.2. What the -Info- Strings Tell
+---------------------------------------
+The most basic information is the name of the Device Specific
+Library
+ 
+  'DLL-Name: K8055DD' .
+
+Followed by the most important strings
+
+  'DLL-Version: 1.0.16'
+  'Date: 2011-07-12' .
+
+In future application projects these two strings can be used as
+version check helpers.
+
+The fourth line indicated the kind of software licence it is
+stated as
+
+  'Licence: BSD'   and
+
+finally the names of the authors follow. 
+  
+  
+3.3.3.4. 'Disclaimer' Via Main Menu
+-----------------------------------
+3.3.3.4.1. How the Screen is Structured
+---------------------------------------
+The screen layout is similar to all the tests explained above.
+First the application headline, then the actual message. In this
+case the disclaimer text. 
+
+---- Screenshot, -- 'Disclaimer' via Main Menu, BEGIN ----------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+|                                                              |
+|  Disclaimer                                                  |
+|                                                              |
+|   This program is a snapshot of the author's                 |
+|   learning curve. Sharing knowledge is the only              |
+|   reason, why it was published.                              |
+|   Anyone, who wants to make use of it, will have             |
+|   to modify it for individual purposes.                      |
+|                                                              |
+|   Hereby the authors declare themselves unable to            |
+|   provide any warranty concerning any subject                |
+|   covered by this program.                                   |
+|                                                              |
+|                    Authors: B. Hennig and U. Hinz, 2010      |
+|                                                              |
+|                                                              |
+| Press  m  to return to the Main Menu                         |
+|                                                              |
+----- Screenshot, -- 'Disclaimer' via Main Menu, END -----------
+
+If the disclaimer is invoked via Main Menu the screen layout is
+not completely identical with the command line option -d
+(see section 3.3.2.3. The Option 'Disclaimer' ( -d )).
+Here it is possible to continue using the demo application  by
+pressing  m or M  and go back to the main menu again. 
+
+
+3.3.3.5. 'Preface' - Hints Within Every Test
+--------------------------------------------
+3.3.3.5.1. How to Use Test Prefaces
+-----------------------------------
+By default prefaces are switched off. They cannot be put into
+action via the Main Menu. The only way to activate them is the
+-p parameter. See the usage here:
+
+  [...\K8055\EXAMPLE]k8055e.exe -p -n K8055_$ -d
+
+Once ON, they stay in active untill the demo application has
+ended work.
+
+Basically there are three tests provided by the demo application
+'k8055e.exe':
+
+ - 'Test -Read-' ,
+ - 'Test -Write' and
+ - 'Test -Info'.
+
+So prefaces can help an interested user to become familiar
+with the DLL source code.
+
+
+3.3.3.5.2. Test -Read- Preface
+------------------------------
+A helping introduction lists all functions that are used for
+reading from K8055. Some more details, as the names of the
+K8055 inputs, will help the future programmer to find source
+code expressions more easily.
+The little list of DLL functions is sorted in the order of
+usage in 'k8055e.exe' (see 'main.c').
+
+---- Screenshot, -- Test -Read- preface, BEGIN -----------------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+| -Read- selected                                              |
+| --------------------------------------------------           |
+|    Test -Read- will demonstrate the reading of               |
+|                                                              |
+|    the Digital Inputs 'Ix' ( I1, I2, I3, I4, I5 ),           |
+|    the I1-Counter and the I2-Counter,                        |
+|    the Analog Inputs 'A1' and 'A2' of K8055.                 |
+|                                                              |
+|      DLL functions used in this test:                        |
+|      - 'K8055_Open()'                                        |
+|      - 'K8055_Init()'                                        |
+|      - 'K8055_ReadAllInputs()'                               |
+|      - 'K8055_DecodeDigitalInputs()'                         |
+|      - 'K8055_CheckIxCounter()'                              |
+|      - 'K8055_Close()'                                       |
+|                                                              |
+| Press  r   to start the test                                 |
+|                                                              |
+----- Screenshot, -- Test -Read- preface, END ------------------
+
+
+3.3.3.5.3. Test -Write- Preface
+-------------------------------
+This supportive extra screen lists all functions that are used
+for writing to K8055. Further details, K8055 as outputs names
+for example, can help the future programmer to go through the
+source code with less pain.
+The small list of DLL functions is sorted in the order of
+usage in 'k8055e.exe' (see 'main.c').
+
+---- Screenshot, -- Test -Write- preface, BEGIN ----------------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+| -Write- selected                                             |
+| -------------------------------------------------            |
+|                                                              |
+|    Test -Write- will demonstrate the writing of              |
+|    the byte values 0...255                                   |
+|    to the Digital Outputs 'Ox' (LEDs LD1...LD8),             |
+|    to the Analog Output 'DAC1' and                           |
+|    to the Analog Output 'DAC2' of K8055.                     |
+|                                                              |
+|      DLL functions used in this test:                        |
+|      - 'K8055_Open()'                                        |
+|      - 'K8055_Init()'                                        |
+|      - 'K8055_PrepairDigitalOut()'                           |
+|      - 'K8055_PrepairDACxOut()'                              |
+|      - 'K8055_SetAllOutputs()'                               |
+|      - 'K8055_Close()'                                       |
+|                                                              |
+| Press  w  to start the test                                  |
+|                                                              |
+----- Screenshot, -- Test -Write- preface, END -----------------
+
+
+3.3.3.5.4. Test -Info- Preface
+-------------------------------
+This extra screen mentions just one function that is used for
+getting detailed version information concerning the
+Device Specific Library 'K8055DD.dll'. Any programmer who wants
+to be sure about the DLL in particular should make use of the
+function 'K8055_GetInfoStr()'.
+Hint: 'K8055_GetInfoStr()' has got a close relative. Its name
+is 'K8055_GetInfoByte()' and provides the same service in a
+slightly different way, but is not involved in this info test.
+
+---- Screenshot, -- Test -Info- preface, BEGIN -----------------
+|                                                              |
+| ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  |
+| ³           This is a Demo Application for the            ³  |
+| ³           USB-Interface Board VELLEMAN K8055            ³  |
+| ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  |
+| -Info- selected                                              |
+| ----------------------------------------------               |
+|                                                              |
+|      Test -Info- will display basic information              |
+|      concerning the                                          |
+|      Device Specific DLL 'K8055DD'.                          |
+|                                                              |
+|      DLL function used in this test:                         |
+|      - 'K8055_GetInfoStr()'                                  |
+|                                                              |
+| Press  i  to start test                                      |
+|                                                              |
+----- Screenshot, -- Test -Info- preface, END ------------------
+
+
+
+4. Installation
+---------------
+4.1. Directory Structure
+------------------------
+Files of this project reside in the following directory layout:
+
+  K8055  ;Files that are needed to compile/build the 
+     |   ;Device Specific Library 'K8055DD.dll'
+     |   ;( 3.2.3. List of Files Belonging to 'K8055DD.dll' ).
+     |
+     +--doc  ;Short description 'howbuild.txt'
+     |       ;This File 'project.txt'.
+     |
+     +--example ;Files needed for the Demo Application
+     |          ;'k8055e.exe'.
+     |
+     +--pyexample ;Demo script in Python language. Within this
+     |            ;script a Python-Module is used.
+     |            ;The module itself is generated with Pyrex!
+     |            ;(see file 'howbuild.txt').
+     |
+     +--pyk8055 ;All files that belong to 'Pyrex' in order to
+                ;create the said Pyton-Module. This module
+                ;allows calling functions that are offered,
+                ;(exported) by 'K8055DD.dll'.
+
+
+4.1.1. Where to Put 'K8055DD.dll'
+---------------------------------
+The very first step after the directory structure was placed
+onto the eCS-PC is the compiling/building action.
+Then the 'K8055DD.dll' copy action must follow.
+This DLL  m u s t  be found by the OS in a directory
+that is part of
+
+ 'PATH'  or  'LIBPATH'.
+
+Please see the 'config.sys' fragment below.
+
+-- Fragment of a 'config.sys' file ---- BEGIN -- 
+
+ LIBPATH=.;..;C:\PROGRAMS\RSJCD;C:\IBMLAN\NETLIB;C:\MUGLIB\DLL;
+ C:\PROGRAMS\NETSCAPE\PROGRAM;C:\ECS\DLL;C:\OS2\DLL;
+ C:\IBMGSK50\LIB;C:\IBMGSK40\LIB;C:\IBMGSK\LIB;C:\MPTN\DLL;
+ C:\TCPIP\DLL;C:\IBMCOM\DLL;C:\OS2\MDOS;C:\;C:\OS2\APPS\DLL;
+ C:\EMX\DLL;C:\MMOS2\DLL;e:\WATCOM\BINP\DLL;e:\python26\;
+
+-- Fragment of a 'config.sys' file ------ END --
+
+We the authors have choosen the eCS directory for Dynamic Link
+Libraries, 
+
+ 'C:\ECS\DLL' (See Hint 5).
+ 
+If a programmer has undergone the compiling/building several
+times and done some copy actions, a number of library versions
+will pile up after a while as
+
+  'C:\ECS\DLL\K8055DD.dll'
+  '           K8055DD:1.dll'
+  '           K8055DD:2.dll'
+  '           K8055DD:3.dll'
+            ...
+  '           K8055DD:?.dll' .
+
+Hint 1:
+It is good practice to keep the number of versions as low as
+possible by deleting older versions from time to time.
+
+Hint 2:
+It is good practice to relinquish the copy actions in the
+development phase at all. If the working directory remains the
+same directory in which 'K8055DD.dll' resides, the LIBPATH
+fragment
+
+ 'LIBPATH=.;..;C:\PR...'
+
+will make work possible because '.;..;' includes the current
+directory and one level backwards. The Operating System will
+surely find 'K8055DD.dll' if work takes currently place in
+
+ '..\K8055'          or in
+ '..\K8055\EXAMPLE'
+
+alternatively. 
+
+Hint 3:
+It is good practice to put 'K8055DD.dll' in a newly created
+directory once development is over.
+Here the LIBPATH statement needs an additional entry.
+
+Hint 4:
+It is good practice to have only one productive 'K8055DD.dll'
+on the whole system. This will reduce errors and mistakes
+drastically. Especially if development had to be interrupted
+for months or even longer.
+
+Hint 5:
+The makefile '..\K8055\Makefile.wmk' has got a 'install'
+target on board for all who like it the easy way.
+Please type
+
+ 'wmake -f Makefile.wmk install'
+
+and the DLL 'K8055DD.dll' will be copied to the the right
+directory.
+
+-- Fragment of the 'wmake' screenshot --------------- BEGIN --
+
+[E:\...\K8055]wmake -f Makefile.wmk install
+Open Watcom Make Version 1.7
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights ...
+Source code is available under the Sybase Open Watcom Pu ...
+See http://www.openwatcom.org/ for details.
+"Installpath for K8055DD.dll"
+c:\ECS\dll
+        copy /B K8055DD.dll c:\ECS\dll\K8055DD.dll
+        1 file(s) copied.
+Error(F38): (install) does not exist and cannot be made  ...
+Error(E02): Make execution terminated
+
+-- Fragment of the 'wmake' screenshot ----------------- END --
+(Please ignore Errors F38 and E02.)
+
+ 
+4.1.2. Where to Put 'K8055DD.lib'
+---------------------------------
+To make use of the Device Specific Library 'K8055DD.dll' an
+Import Library is needed. This Import Library is the file
+
+ 'K8055DD.lib' .
+
+Any demo application in this project requires this library
+for the compiling/building process. So it must be put into
+
+ '..\K8055\EXAMPLE'    and
+ '..\K8055\PYK8055' .
+
+Please see the fragment of the makefile 
+
+ '..\K8055\Makefile.wkm' . 
+
+-- Fragment of the file '..\K8055\Makefile.wkm' ----- BEGIN --
+
+K8055DD.dll: $(OBJECTS)
+	*wlink @K8055.def system os2v2_dll dll initi ...
+	wlib -n -l -fo -c K8055DD +K8055DD.dll
+	wlib -v K8055DD.lib
+	copy /B K8055DD.lib .\pyk8055\K8055DD.lib
+	copy /B K8055DD.lib .\example\K8055DD.lib
+
+-- Fragment of the file '..\K8055\Makefile.wkm' ------- END --
+
+The last two lines of the fragment perform the copy action
+automatically.
+
+
+4.2. Changing the file 'config.sys'
+-----------------------------------
+How eComStation can be told there is an additional driver
+to work with, is declared in the 'config.sys' file. This
+basic knowledge or commonplace. The line
+
+ 'device = C:<path>usbecd.sys /D:10CF:5500:0000 /N:K8055_$'
+
+can be placed behind the last line and the job is done.
+
+'<path>' can be almost any location on a harddisk but the
+authors recommend to create a separate directory like
+
+  'c:\usbecd\..'
+
+to put Wim Brul's Generic USB Device Driver in.
+(Please check section
+      3.1. The Generic USB Driver 'usbecd.sys' by Wim Brul)
+
+Nevertheless, the spot is on the parameters. For commenting
+on them the driver statement is turned vertical:
+
+
+---- 'config.sys'-statement turned vertical -- BEGIN -------- 
+
+ device =  ;Statement for loading a device driver.
+
+ C:    ;The harddrive on which the device driver is located.
+       ;Traditionally this is the boot drive but it can be any.
+
+ <Path>     ;The directory in which Wim Brul's Generic
+            ;USB Device Driver 'usbecd.sys' is located.
+            ;In this project it was choosen as '\usbecd\'.
+            ;All other Wim Brul files were put here as
+            ;well. 'usbecd.txt' for example.
+            ;(Please check section 3.1. The Generic USB...)
+
+ usbecd.sys  ;Wim Brul's Generic USB Device Driver itself.
+
+ /D:          ;The device parameter, followed by a trio of
+              ;ID values. (see section 2.1.3.) or Wim Brul's
+              ;file 'usbecd.txt'.  
+
+ 10CF:5500:0000 ;The device parameter value, consisting
+                ;of three parts:
+                ; 10CF - Vendor ID, meaning 'Velleman' 
+                ; 5500 - Product ID, meaning 'K8055'
+                ;        Can vary by 'SK5' and 'SK6'
+                ;        Range: 5500..5503.
+                ;        (see section 3.1. The Generic USB...)
+                ; 0000 - Release Number, detailed meaning
+                ;        unknown.
+                ;Attention: Hexadecimal numbers must be upper
+                ;           case.
+
+ /N:      ;The name parameter, here the driver instance gets
+          ;its name.
+
+ K8055_$  ;The name parameter value. This string follows the
+          ;rules of device driver names as usual.
+
+ /V       ;The verbose parameter. During start up, a short
+          ;text message is displayed on the screen.
+          ;If omitted, nothing is visible concerning the
+          ;driver 'usbecd.sys'.
+
+ /S       ;The sound OFF parameter. If applied a short
+          ;beep signal will be subpressed.   
+
+
+---- 'config.sys'-statement turned vertical ---- END --------
+
+Wim Brul's file 'usbecd.txt' lists all details authentically. 
+Please read it twice.  
+
+
+
+5. The Authors
+--------------
+The authors  B j o e r n  H e n n i g  and  U w e  H i n z   wish
+all fellows who try this project pleasing results. Send us electric
+post cards for this topic via
+
+      'ed.gmx)ø(ginneh.b'
+      'ed.enilno-t)ø(blerdhu' .
+
+
+
+[END]

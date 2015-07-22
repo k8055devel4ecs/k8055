@@ -1,0 +1,51 @@
+OBJECTS=func.obj
+DATA=func
+BUILDOBJ=func.obj
+DLLINSTALLPATH =
+
+
+
+!ifndef %OSDIR
+!error " OSDIR install variable not found "
+!endif
+# DLLINSTALLPATH=%OSDIR
+!ifeqi %OSDIR C:\ECS
+DLLINSTALLPATH=c:\ECS\dll
+!else ifeqi %OSDIR D:\ECS
+DLLINSTALLPATH=D:\ECS\DLL
+!else ifeqi %OSDIR E:\ECS
+DLLINSTALLPATH=E:\ECS\DLL
+!else ifeqi %OSDIR F:\ECS
+DLLINSTALLPATH=F:\os2\DLL
+!else ifeqi %OSDIR G:\ECS
+DLLINSTALLPATH=G:\ECS\DLL
+!endif
+
+all: K8055DD.dll
+
+
+.c.obj: .AUTODEPEND
+	wcc386 $[* -i=D:\WATCOM17\h;D:\WATCOM17\h\os2 -w4 -e25 -zq -od -d2 -hw -bd -6s &
+-bt=os2 -mf
+
+
+K8055DD.dll: $(OBJECTS)
+	*wlink @K8055.def system os2v2_dll dll initi termi file $(BUILDOBJ) library os2386.lib , clib3s.lib
+	wlib -n -l -fo -c K8055DD +K8055DD.dll
+	wlib -v K8055DD.lib
+	copy /B K8055DD.lib .\pyk8055\K8055DD.lib
+	copy /B K8055DD.lib .\example\K8055DD.lib
+
+
+clean:
+	del *.obj *.dll *.lib *.map *.lst
+	
+doc:
+	doxygen doxyfile
+
+install: K8055DD.dll
+	@echo "Installpath for K8055DD.dll"
+	@echo $(DLLINSTALLPATH)
+	copy /B K8055DD.dll $(DLLINSTALLPATH)\K8055DD.dll
+
+
